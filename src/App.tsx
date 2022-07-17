@@ -10,15 +10,7 @@ function App() {
     if (displaySymbol === "0") {
       setDisplaySymbol("");
     }
-
     setExpression((prev) => prev + symbol);
-    /*if(operator.test(symbol)){
-    const operatorSplit = /[÷*+/-]/g;
-    const lastElement = expression.split(operatorSplit)[expression.split(operatorSplit).length - 1];
-
-    window.alert(lastElement)  
-    }*/
-
     setDisplaySymbol((prev) =>
       prev.includes("+") ||
       prev.includes("-") ||
@@ -35,13 +27,26 @@ function App() {
       }
     }
     if (operator.test(symbol)) {
-      const operators = ["-", "+", "/", "*"]
-      const expressionSplit = expression.split("");   
-      if(expressionSplit[expressionSplit.length - 1].includes("+") || expressionSplit[expressionSplit.length - 1].includes("-")
-     || expressionSplit[expressionSplit.length - 1].includes("/") || expressionSplit[expressionSplit.length - 1].includes("*")){
+      const operator = /[÷*+/-]/g;
+      const expressionSplit = expression.split("");
+      const isLastElementOperator =
+        expressionSplit[expressionSplit.length - 1].includes("*") ||
+        expressionSplit[expressionSplit.length - 1].includes("+") ||
+        expressionSplit[expressionSplit.length - 1].includes("-") ||
+        expressionSplit[expressionSplit.length - 1].includes("/");
+      if (isLastElementOperator) {       
+          setExpression(expression.slice(0, -1) + symbol);
+         
+      }
+      if(isLastElementOperator && symbol=="-"){
+        if(!expressionSplit[expressionSplit.length - 1].includes("-") ){
+           setExpression(expression + symbol)
+        }    
+      }
+      if(expressionSplit[expressionSplit.length - 1].includes("-")){
+        setExpression(expression.slice(0, -2) + symbol);
+      }
 
-      setExpression(expression.slice(0, -1) + symbol)
-     }
       setDisplaySymbol(symbol);
     }
   };
