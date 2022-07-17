@@ -1,34 +1,141 @@
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [expression, setExpression] = useState<string>("");
+  const [displaySymbol, setDisplaySymbol] = useState<string>("0");
+  const [answer, setAnswer] = useState<string>("0");
+  const display = (symbol: string) => {
+    const operator = /[÷*+/-]/g;
+    if (displaySymbol === "0") {
+      setDisplaySymbol("");
+    }
+    setExpression((prev) => prev + symbol);
+    setDisplaySymbol((prev) =>
+      prev.includes("+" || "-" || "/" || "*") ? symbol : prev + symbol
+    );
+    if (expression[expression.length - 1] == "=") {
+      if (/[1-9.]/.test(symbol)) {
+        setExpression(symbol);
+      } else if(operator.test(expression[expression.length - 1])){
+        if(expression.endsWith("+" || "-" || "/" || "*") ){
+          expression.replace(symbol,expression[expression.length - 1] )
+          setExpression(expression);
+        }
+      }
 
+      
+      else {
+        setExpression(answer + symbol);
+      }
+    }
+    if (operator.test(symbol)) {
+      const lastElement =
+        expression.split(operator)[expression.split(operator).length - 1];
+      setDisplaySymbol(symbol);
+    }
+  };
+  const clear = () => {
+    setAnswer("0");
+    setDisplaySymbol("0");
+    setExpression("");
+  };
+  const calculate = () => {
+    setAnswer(eval(expression));
+    setExpression((prev) => prev + "=");
+  };
 
+  const displayDecimal = (event: any) => {
+    const operatorSplit = /[÷*+/-]/g;
+    const lastElement =
+      expression.split(operatorSplit)[
+        expression.split(operatorSplit).length - 1
+      ];
+
+    if (!lastElement.includes(".")) {
+      setExpression(expression + event.target.innerText);
+      setDisplaySymbol(displaySymbol + event.target.innerText)
+    }
+  };
   return (
     <div className="App">
-      <div className='calculator'>      
-        <div className='display' id="display"></div>
-        <div className='buttons'> 
-          <button id="clear" value="AC" className='wideBtn'>AC</button>
-          <button id="divide" value="/">/</button> 
-          <button id="multiply" value="*">x</button>     
-          <button id="seven" value="7">7</button>
-          <button id="eight" value="8">8</button>
-          <button id="nine" value="9">9</button>
-          <button id="subtract" value="-">-</button> 
-          <button id="four" value="4">4</button>
-          <button id="five" value="5">5</button>
-          <button id="six" value="6">6</button>
-          <button id="add" value="+">+</button> 
-          <button id="one" value="1">1</button>
-          <button id="two" value="2">2</button>
-          <button id="three" value="3">3</button>
-          <button id="equal" value="=" className='longerBtn'>=</button>
-          <button id="zero" value="0" className='wideBtn'>0</button>
-          <button id="decimal" value=".">.</button>
+      <div className="calculator">
+        <div className="displayAll">
+          <input className="displayExpression" value={expression} />
+          <div className="display" id="display">
+            {answer === "0" ? displaySymbol : answer}
+          </div>
+        </div>
+        <div className="buttons">
+          <button id="clear" className="wideBtn" onClick={clear}>
+            AC
+          </button>
+          <button id="divide" onClick={() => display(" / ")}>
+            /
+          </button>
+          <button id="multiply" onClick={() => display(" * ")}>
+            x
+          </button>
+          <button id="seven" onClick={() => display("7")}>
+            7
+          </button>
+          <button id="eight" onClick={() => display("8")}>
+            8
+          </button>
+          <button id="nine" onClick={() => display("9")}>
+            9
+          </button>
+          <button id="subtract" onClick={() => display(" - ")}>
+            -
+          </button>
+          <button id="four" onClick={() => display("4")}>
+            4
+          </button>
+          <button id="five" onClick={() => display("5")}>
+            5
+          </button>
+          <button id="six" onClick={() => display("6")}>
+            6
+          </button>
+          <button id="add" onClick={() => display(" + ")}>
+            +
+          </button>
+          <button id="one" onClick={() => display("1")}>
+            1
+          </button>
+          <button id="two" onClick={() => display("2")}>
+            2
+          </button>
+          <button id="three" onClick={() => display("3")}>
+            3
+          </button>
+          <button
+            id="equals"
+            value="="
+            className="longerBtn"
+            onClick={calculate}
+          >
+            =
+          </button>
+          <button
+            id="zero"
+            value="0"
+            className="wideBtn"
+            onClick={() => display("0")}
+          >
+            0
+          </button>
+          <button
+            id="decimal"
+            value="."
+            onClick={(event) => displayDecimal(event)}
+          >
+            .
+          </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

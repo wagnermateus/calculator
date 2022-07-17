@@ -1,14 +1,14 @@
-.App{
+.App {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: #DE39E6;
-  font-family: 'Orbitron';
+  background-color: #de39e6;
+  font-family: "Orbitron";
 }
 
-.calculator{
+.calculator {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,18 +19,22 @@
   background: #000;
   padding: 0.5rem;
 }
-.display{
+.displayAll {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: space-between;
   width: 100%;
   height: 15%;
-  background:black;
+  background: black;
 }
-.buttons{
+.buttons {
   display: grid;
   align-items: center;
   justify-items: center;
   width: 100%;
   height: 85%;
-  background: #DC29FF;
+  background: #dc29ff;
   grid-template-columns: repeat(4, 1fr);
   grid-row-gap: 1px;
   grid-column-gap: 1px;
@@ -38,20 +42,32 @@
 }
 button {
   width: 100%;
-  height:4rem;
-  color: #DE39E6;
-  background: #E91773;
+  height: 4rem;
+  color: #de39e6;
+  background: #e91773;
   font-size: 22px;
 }
-.wideBtn{
+.wideBtn {
   grid-column: span 2;
- 
 }
-.longerBtn{
+.longerBtn {
   grid-row: span 2;
-  height:8rem;
+  height: 8rem;
 }
 button:hover {
   cursor: pointer;
-  border: 1px solid #DE39E6;
+  border: 1px solid #de39e6;
+}
+.display {
+  color: #e91773;
+  font-size: 20px;
+}
+.displayExpression {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  background-color: black;
+  border: none;
+  color: #de39e6;
+  font-size: 0.7rem;
 }
