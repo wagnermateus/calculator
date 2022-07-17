@@ -10,28 +10,38 @@ function App() {
     if (displaySymbol === "0") {
       setDisplaySymbol("");
     }
+
     setExpression((prev) => prev + symbol);
+    /*if(operator.test(symbol)){
+    const operatorSplit = /[÷*+/-]/g;
+    const lastElement = expression.split(operatorSplit)[expression.split(operatorSplit).length - 1];
+
+    window.alert(lastElement)  
+    }*/
+
     setDisplaySymbol((prev) =>
-      prev.includes("+" || "-" || "/" || "*") ? symbol : prev + symbol
+      prev.includes("+") ||
+      prev.includes("-") ||
+      prev.includes("/") ||
+      prev.includes("*")
+        ? symbol
+        : prev + symbol
     );
     if (expression[expression.length - 1] == "=") {
-      if (/[1-9.]/.test(symbol)) {
+      if (/[0-9.]/.test(symbol)) {
         setExpression(symbol);
-      } else if(operator.test(expression[expression.length - 1])){
-        if(expression.endsWith("+" || "-" || "/" || "*") ){
-          expression.replace(symbol,expression[expression.length - 1] )
-          setExpression(expression);
-        }
-      }
-
-      
-      else {
+      } else {
         setExpression(answer + symbol);
       }
     }
     if (operator.test(symbol)) {
-      const lastElement =
-        expression.split(operator)[expression.split(operator).length - 1];
+      const operators = ["-", "+", "/", "*"]
+      const expressionSplit = expression.split("");   
+      if(expressionSplit[expressionSplit.length - 1].includes("+") || expressionSplit[expressionSplit.length - 1].includes("-")
+     || expressionSplit[expressionSplit.length - 1].includes("/") || expressionSplit[expressionSplit.length - 1].includes("*")){
+
+      setExpression(expression.slice(0, -1) + symbol)
+     }
       setDisplaySymbol(symbol);
     }
   };
@@ -41,8 +51,8 @@ function App() {
     setExpression("");
   };
   const calculate = () => {
-    setAnswer(eval(expression));
     setExpression((prev) => prev + "=");
+    setAnswer(eval(expression));
   };
 
   const displayDecimal = (event: any) => {
@@ -54,7 +64,7 @@ function App() {
 
     if (!lastElement.includes(".")) {
       setExpression(expression + event.target.innerText);
-      setDisplaySymbol(displaySymbol + event.target.innerText)
+      setDisplaySymbol(displaySymbol + event.target.innerText);
     }
   };
   return (
@@ -70,10 +80,10 @@ function App() {
           <button id="clear" className="wideBtn" onClick={clear}>
             AC
           </button>
-          <button id="divide" onClick={() => display(" / ")}>
+          <button id="divide" onClick={() => display("/")}>
             /
           </button>
-          <button id="multiply" onClick={() => display(" * ")}>
+          <button id="multiply" onClick={() => display("*")}>
             x
           </button>
           <button id="seven" onClick={() => display("7")}>
@@ -85,7 +95,7 @@ function App() {
           <button id="nine" onClick={() => display("9")}>
             9
           </button>
-          <button id="subtract" onClick={() => display(" - ")}>
+          <button id="subtract" onClick={() => display("-")}>
             -
           </button>
           <button id="four" onClick={() => display("4")}>
@@ -97,7 +107,7 @@ function App() {
           <button id="six" onClick={() => display("6")}>
             6
           </button>
-          <button id="add" onClick={() => display(" + ")}>
+          <button id="add" onClick={() => display("+")}>
             +
           </button>
           <button id="one" onClick={() => display("1")}>
