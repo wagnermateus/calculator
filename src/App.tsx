@@ -10,6 +10,9 @@ function App() {
     if (displaySymbol === "0") {
       setDisplaySymbol("");
     }
+    if(displaySymbol.length >= 20) {
+      setDisplaySymbol("Digit Limit");
+    }
     setExpression((prev) => prev + symbol);
     setDisplaySymbol((prev) =>
       prev.includes("+") ||
@@ -19,6 +22,8 @@ function App() {
         ? symbol
         : prev + symbol
     );
+    
+    
     if (expression[expression.length - 1] == "=") {
       if (/[0-9.]/.test(symbol)) {
         setExpression(symbol);
@@ -27,23 +32,21 @@ function App() {
       }
     }
     if (operator.test(symbol)) {
-      const operator = /[÷*+/-]/g;
       const expressionSplit = expression.split("");
       const isLastElementOperator =
         expressionSplit[expressionSplit.length - 1].includes("*") ||
         expressionSplit[expressionSplit.length - 1].includes("+") ||
         expressionSplit[expressionSplit.length - 1].includes("-") ||
         expressionSplit[expressionSplit.length - 1].includes("/");
-      if (isLastElementOperator) {       
-          setExpression(expression.slice(0, -1) + symbol);
-         
+      if (isLastElementOperator) {
+        setExpression(expression.slice(0, -1) + symbol);
       }
-      if(isLastElementOperator && symbol=="-"){
-        if(!expressionSplit[expressionSplit.length - 1].includes("-") ){
-           setExpression(expression + symbol)
-        }    
+      if (isLastElementOperator && symbol == "-") {
+        if (!expressionSplit[expressionSplit.length - 1].includes("-")) {
+          setExpression(expression + symbol);
+        }
       }
-      if(expressionSplit[expressionSplit.length - 1].includes("-")){
+      if (expressionSplit[expressionSplit.length - 1].includes("-")) {
         setExpression(expression.slice(0, -2) + symbol);
       }
 
@@ -82,13 +85,17 @@ function App() {
           </div>
         </div>
         <div className="buttons">
-          <button id="clear" className="wideBtn" onClick={clear}>
+          <button id="clear" className="wideBtn AC" onClick={clear}>
             AC
           </button>
-          <button id="divide" onClick={() => display("/")}>
+          <button id="divide" className="operator" onClick={() => display("/")}>
             /
           </button>
-          <button id="multiply" onClick={() => display("*")}>
+          <button
+            id="multiply"
+            className="operator"
+            onClick={() => display("*")}
+          >
             x
           </button>
           <button id="seven" onClick={() => display("7")}>
@@ -100,7 +107,11 @@ function App() {
           <button id="nine" onClick={() => display("9")}>
             9
           </button>
-          <button id="subtract" onClick={() => display("-")}>
+          <button
+            id="subtract"
+            className="operator"
+            onClick={() => display("-")}
+          >
             -
           </button>
           <button id="four" onClick={() => display("4")}>
@@ -112,7 +123,7 @@ function App() {
           <button id="six" onClick={() => display("6")}>
             6
           </button>
-          <button id="add" onClick={() => display("+")}>
+          <button id="add" className="operator" onClick={() => display("+")}>
             +
           </button>
           <button id="one" onClick={() => display("1")}>
@@ -149,6 +160,9 @@ function App() {
           </button>
         </div>
       </div>
+      <p>
+        Devoleped by <i>@WagnerMateus</i>
+      </p>
     </div>
   );
 }
