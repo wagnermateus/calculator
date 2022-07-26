@@ -10,9 +10,7 @@ function App() {
     if (displaySymbol === "0") {
       setDisplaySymbol("");
     }
-    if(displaySymbol.length >= 20) {
-      setDisplaySymbol("Digit Limit");
-    }
+  
     setExpression((prev) => prev + symbol);
     setDisplaySymbol((prev) =>
       prev.includes("+") ||
